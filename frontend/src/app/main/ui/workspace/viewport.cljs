@@ -106,6 +106,7 @@
         alt?              (mf/use-state false)
         mod?              (mf/use-state false)
         space?            (mf/use-state false)
+        z?                (mf/use-state false)
         cursor            (mf/use-state (utils/get-cursor :pointer-inner))
         hover-ids         (mf/use-state nil)
         hover             (mf/use-state nil)
@@ -156,12 +157,12 @@
 
         on-click          (actions/on-click hover selected edition drawing-path? drawing-tool space? selrect)
         on-context-menu   (actions/on-context-menu hover hover-ids workspace-read-only?)
-        on-double-click   (actions/on-double-click hover hover-ids drawing-path? base-objects edition workspace-read-only?)
+        on-double-click   (actions/on-double-click hover hover-ids drawing-path? base-objects edition drawing-tool z? workspace-read-only?)
         on-drag-enter     (actions/on-drag-enter)
         on-drag-over      (actions/on-drag-over)
         on-drop           (actions/on-drop file)
         on-mouse-down     (actions/on-mouse-down @hover selected edition drawing-tool text-editing? node-editing?
-                                                 drawing-path? create-comment? space? panning workspace-read-only?)
+                                                 drawing-path? create-comment? space? panning z? workspace-read-only?)
         on-mouse-up       (actions/on-mouse-up disable-paste)
         on-pointer-down   (actions/on-pointer-down)
         on-pointer-enter  (actions/on-pointer-enter in-viewport?)
@@ -212,8 +213,8 @@
 
     (hooks/setup-dom-events viewport-ref zoom disable-paste in-viewport? workspace-read-only?)
     (hooks/setup-viewport-size viewport-ref)
-    (hooks/setup-cursor cursor alt? mod? space? panning drawing-tool drawing-path? node-editing? workspace-read-only?)
-    (hooks/setup-keyboard alt? mod? space?)
+    (hooks/setup-cursor cursor alt? mod? space? panning drawing-tool drawing-path? node-editing? z? workspace-read-only?)
+    (hooks/setup-keyboard alt? mod? space? z?)
     (hooks/setup-hover-shapes page-id move-stream base-objects transform selected mod? hover hover-ids hover-top-frame-id @hover-disabled? focus zoom show-measures?)
     (hooks/setup-viewport-modifiers modifiers base-objects)
     (hooks/setup-shortcuts node-editing? drawing-path?)

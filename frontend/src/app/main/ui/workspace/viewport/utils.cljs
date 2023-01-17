@@ -20,7 +20,7 @@
 
 (defn get-cursor [cursor]
   (case cursor
-    :hand cur/hand
+    :hand cur/comments;; cur/hand
     :comments cur/comments
     :create-artboard cur/create-artboard
     :create-rectangle cur/create-rectangle
@@ -31,7 +31,7 @@
     :duplicate cur/duplicate
     :zoom cur/zoom
     :zoom-in cur/zoom-in
-    :zooom-out cur/zoom-out
+    :zoom-out cur/zoom-out
     cur/pointer-inner))
 
 ;; Ensure that the label has always the same font
