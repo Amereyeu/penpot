@@ -87,8 +87,33 @@
             (let [family  (or (.getEnglishName ^js font "preferredFamily")
                               (.getEnglishName ^js font "fontFamily"))
                   variant (or (.getEnglishName ^js font "preferredSubfamily")
-                              (.getEnglishName ^js font "fontSubfamily"))]
-              {:content {:data (js/Uint8Array. data)
+                              (.getEnglishName ^js font "fontSubfamily"))
+
+
+                  hhea-ascender (abs (-> font .-tables .-hhea .-ascender))
+                  hhea-descender (abs (-> font .-tables .-hhea .-descender))
+
+                  win-ascent  (abs (-> font .-tables .-os2 .-usWinAscent))
+                  win-descent (abs (-> font .-tables .-os2 .-usWinDescent))
+
+                  os2-ascent (abs (-> font .-tables .-os2 .-sTypoAscender))
+                  os2-descent (abs (-> font .-tables .-os2 .-sTypoDescender))
+
+                  f-selection (-> (-> font .-tables .-os2 .-fsSelection)
+                                  (bit-test 7))
+
+                  height-warning? (or (not= hhea-ascender win-ascent)
+                                      (not= hhea-descender win-descent)
+                                      (and f-selection (or
+                                                        (not= hhea-ascender os2-ascent)
+                                                        (not= hhea-descender os2-descent))))
+
+                  font2 (ot/parse data)]
+
+              (js/console.log "font" (clj->js font2))
+              (js/console.log "height-warning?" height-warning?)
+
+              {:content {:data data
                          :name name
                          :type type}
                :font-family (or family "")
